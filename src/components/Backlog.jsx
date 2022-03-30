@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -13,19 +13,20 @@ import Icon from '@material-ui/core/Icon';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
+import BacklogForm from './BacklogForm';
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
     { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
     {
         id: 'population',
-        label: 'Population',
+        label: 'Proyecto',
         minWidth: 170,
         align: 'right',
         format: (value) => value.toLocaleString('en-US'),
     },
     {
         id: 'size',
-        label: 'Size\u00a0(km\u00b2)',
+        label: 'Sprint',
         minWidth: 170,
         align: 'right',
         format: (value) => value.toLocaleString('en-US'),
@@ -75,7 +76,7 @@ export default function Backlog() {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+    const [open, setOpen] = React.useState(false);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -84,16 +85,20 @@ export default function Backlog() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
     return (
         <>
+            <BacklogForm open={open} setOpen={(value) => setOpen(value)}/>
+
             <Grid container justify="flex-end" style={{ paddingBottom: 20 }}>
                 <Grid item>
                     <Button
                         variant="contained"
                         color="primary"
                         endIcon={<AddIcon />}
-                       /*  onClick={() => myFunction()} */
+                        onClick={handleClickOpen}
                     >
                         Agregar
                     </Button>
